@@ -1,0 +1,61 @@
+{
+  "name": "preview-asciidoc",
+  "version": "0.1.0",
+  "bin": "./bin/server.js",
+  "scripts": {
+    "clean": "rimraf app/lib",
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -w",
+    "lint": "eslint './{bin,lib,src,tests}/**/*.{ts,tsx}'",
+    "test-unit": "jest unit --runInBand --config jest.config.json",
+    "lint-fix": "eslint --fix './{bin,lib,src,tests}/**/*.{ts,tsx}'",
+    "prepare": "npm-run-all clean build"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/jest": "^24.0.24",
+    "@types/source-map-support": "^0.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
+    "dotenv-cli": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "fs-extra": "^8.1.0",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.5.4",
+    "typescript": "~3.7.4",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "@types/node": "^13.1.6",
+    "@types/socket.io": "^2.1.4",
+    "child_process": "^1.0.2",
+    "js-sha256": "^0.9.0",
+    "log4js": "^6.1.0",
+    "neovim": "^4.7.0",
+    "socket.io": "^2.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./{bin,lib,src,tests}/**/*.{ts,tsx}": [
+      "yarn lint-fix",
+      "yarn lint",
+      "git add"
+    ]
+  }
+}

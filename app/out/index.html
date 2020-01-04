@@ -1,0 +1,17 @@
+<!doctype html>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(function () {
+    var socket = io();
+    socket.on('refresh_content', function(msg){
+      $('#adoc').html(msg)
+    });
+  });
+</script>
+<html>
+  <body>
+    <div>AsciiDocPreview</div>
+    <div id="adoc"></div>
+  </body>
+</html>
