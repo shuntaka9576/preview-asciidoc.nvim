@@ -16,24 +16,24 @@ const main = async (): Promise<void> => {
     routes(req, res);
   });
 
-  const defaultHost = '127.0.0.1';
-  const defaultPort = 9136;
-
-  let host = defaultHost;
-  let port = defaultPort;
-
   const plugin = await initPlugin();
-  const pswagLunchIp = await plugin.nvim.getVar('pswag_lunch_ip');
-  const pswagLunchPort = await plugin.nvim.getVar('pswag_lunch_port');
 
-  if (pswagLunchIp != null) host = pswagLunchIp as string;
-  if (pswagLunchPort != null) port = pswagLunchPort as number;
+  const host = await (async (): Promise<string> => {
+    const defaultHost = '127.0.0.1';
+    const ip = (await plugin.nvim.getVar('pswag_lunch_ip')) as string;
+    return ip ? ip : defaultHost;
+  })();
+  await plugin.nvim.setVar('b:padoc_lunch_ip', host);
+
+  const port = await (async (): Promise<number> => {
+    const defaultPort = 9136;
+    const port = (await plugin.nvim.getVar('pswag_lunch_port')) as number;
+    return port ? port : defaultPort;
+  })();
+  await plugin.nvim.setVar('b:padoc_lunch_port', port);
 
   const pluginPath = (await plugin.nvim.getVar('padoc_root_dir')) as string;
   const connections: { [key: number]: string[] } = {};
-
-  await plugin.nvim.setVar('b:padoc_lunch_ip', host);
-  await plugin.nvim.setVar('b:padoc_lunch_port', port);
 
   const io = socketio(server);
   io.on('connection', async socket => {
