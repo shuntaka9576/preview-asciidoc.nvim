@@ -29,7 +29,7 @@ merged = 0
 
 usage
 ```
-:AsciidocPreview
+:AsciiDocPreview
 ```
 
 ## Config
