@@ -28,7 +28,7 @@ export async function buildAdoc(
 
   logger.debug(`buildCmd: ${buildCmd}`);
   const execAdoc = (): Promise<string> => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       childProcess.exec(executeCmd, (error, stdout, stderr) => {
         resolve(stdout);
       });

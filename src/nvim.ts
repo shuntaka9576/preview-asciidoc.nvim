@@ -11,14 +11,14 @@ export async function initPlugin(): Promise<Plugin> {
 
   const MSG_PREFIX = '[padoc.vim]';
 
-  process.on('uncaughtException', function(err) {
+  process.on('uncaughtException', function (err) {
     const msg = `${MSG_PREFIX} uncaught exception: ` + err.stack;
     if (plugin.nvim) {
       plugin.nvim.call('padoc#util#echo_messages', ['Error', msg.split('\n')]);
     }
     logger.error('uncaughtException', err.stack);
   });
-  process.on('unhandledRejection', function(reason, p) {
+  process.on('unhandledRejection', function (reason, p) {
     if (plugin.nvim) {
       plugin.nvim.call('padoc#util#echo_messages', [
         'Error',

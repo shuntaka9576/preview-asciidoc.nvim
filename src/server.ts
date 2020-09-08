@@ -36,7 +36,7 @@ const main = async (): Promise<void> => {
   const connections: { [key: number]: string[] } = {};
 
   const io = socketio(server);
-  io.on('connection', async socket => {
+  io.on('connection', async (socket) => {
     logger.debug('user connected');
     const bufnr = (await plugin.nvim.call('bufnr', '%')) as number;
     connections[bufnr]
@@ -60,10 +60,10 @@ const main = async (): Promise<void> => {
     host,
     async (): Promise<void> => {
       plugin.init({
-        openBrowser: async url => {
+        openBrowser: async (url) => {
           openBrowser(url);
         },
-        refreshContent: async bufnr => {
+        refreshContent: async (bufnr) => {
           logger.debug(`start refreshContent`);
           const bufferRows = await plugin.nvim.buffer.getLines();
 
@@ -80,7 +80,7 @@ const main = async (): Promise<void> => {
           const content = await buildAdoc(pluginPath, bufferRows, plugin.nvim);
 
           logger.debug(`emit refresh_content`);
-          connections[bufnr].forEach(id => {
+          connections[bufnr].forEach((id) => {
             io.to(id).emit('refresh_content', content.toString());
           });
         },
@@ -93,4 +93,4 @@ const main = async (): Promise<void> => {
 
 main()
   .then(() => console.log('Success'))
-  .catch(err => console.log(`Error!: ${err}`));
+  .catch((err) => console.log(`Error!: ${err}`));
