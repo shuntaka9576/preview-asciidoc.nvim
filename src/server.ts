@@ -55,40 +55,42 @@ const main = async (): Promise<void> => {
     });
   });
 
-  server.listen(
-    port,
-    host,
-    async (): Promise<void> => {
-      plugin.init({
-        openBrowser: async (url) => {
-          openBrowser(url);
-        },
-        refreshContent: async (bufnr) => {
-          logger.debug(`start refreshContent`);
-          const bufferRows = await plugin.nvim.buffer.getLines();
+  server.listen(port, host, async (): Promise<void> => {
+    plugin.init({
+      openBrowser: async (url) => {
+        openBrowser(url);
+      },
+      refreshContent: async (bufnr) => {
+        logger.debug(`start refreshContent`);
+        const bufferRows = await plugin.nvim.buffer.getLines();
 
-          const padocCommandExsits = await plugin.nvim.getVar(
-            'b:padoc_command_exsits',
-          );
-          logger.debug(`padocCommandExsits: ${padocCommandExsits}`);
-          if (padocCommandExsits) {
-            logger.debug(`command exsits skip exec command process`);
-            return;
-          }
+        const padocCommandExsits = await plugin.nvim.getVar(
+          'b:padoc_command_exsits',
+        );
+        logger.debug(`padocCommandExsits: ${padocCommandExsits}`);
+        if (padocCommandExsits) {
+          logger.debug(`command exsits skip exec command process`);
+          return;
+        }
 
-          logger.debug(`exec command process`);
-          const content = await buildAdoc(pluginPath, bufferRows, plugin.nvim);
+        logger.debug(`exec command process`);
+        const content = await buildAdoc(pluginPath, bufferRows, plugin.nvim);
 
-          logger.debug(`emit refresh_content`);
-          connections[bufnr].forEach((id) => {
-            io.to(id).emit('refresh_content', content.toString());
-          });
-        },
-      });
+        logger.debug(`emit refresh_content`);
+        connections[bufnr].forEach((id) => {
+          io.to(id).emit('refresh_content', content.toString());
+        });
+      },
+      refreshView: async (bufnr, pos) => {
+        logger.debug(`emit refresh_view`);
+        connections[bufnr].forEach((id) => {
+          io.to(id).emit('refresh_view', pos);
+        });
+      },
+    });
 
-      plugin.nvim.call('padoc#rpc#open_browser');
-    },
-  );
+    plugin.nvim.call('padoc#rpc#open_browser');
+  });
 };
 
 main()

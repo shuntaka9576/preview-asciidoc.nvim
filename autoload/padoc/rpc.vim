@@ -40,3 +40,9 @@ function! padoc#rpc#refresh_content()
   endif
 endfunction
 
+function! padoc#rpc#refresh_view()
+  if exists('g:padoc_node_channel_id') && g:padoc_node_channel_id !=# -1
+    call rpcnotify(g:padoc_node_channel_id, 'refresh_view', { 'bufnr': bufnr('%') })
+  endif
+endfunction
+
