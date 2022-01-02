@@ -7,7 +7,7 @@
     $('#adoc').html(msg)
   });
   socket.on('refresh_view', function(pos){
-      var line = window.innerHeight * pos
+      var line = document.body.clientHeight * pos
       window.scrollTo(0,line);
   });
 </script>
