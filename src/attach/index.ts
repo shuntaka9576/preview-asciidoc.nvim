@@ -41,7 +41,6 @@ export async function createPlugin(options: Attach): Promise<Plugin> {
         const currline = await nvim.call('line', '.');
         const pos = currline / linecount;
 
-        logger.debug(`KELVE call method: ${method}, bufnr: ${args['bufnr']}`);
         logger.debug(`call method: ${method}, bufnr: ${bufnr}`);
         action.refreshView(bufnr, pos);
         break;
