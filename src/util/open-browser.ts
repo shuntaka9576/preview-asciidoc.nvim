@@ -24,10 +24,15 @@ export async function openBrowser(url: string): Promise<void> {
   args.push(url);
 
   let executeCmd = '';
-  if (platform === 'darwin') {
-    executeCmd = 'open';
-  } else {
-    throw new OpenBrowserUnsupportedPlatformError(platform);
+  switch (platform) {
+    case 'darwin':
+      executeCmd = 'open';
+      break;
+    case 'linux':
+      executeCmd = 'xdg-open';
+      break;
+    default:
+      throw new OpenBrowserUnsupportedPlatformError(platform);
   }
 
   childProcess.spawn(executeCmd, args, {
