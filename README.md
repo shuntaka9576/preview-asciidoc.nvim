@@ -45,6 +45,9 @@ let g:padoc_lunch_port='6060'
 " set asciidoc build command
 " deafult `asciidoctor -r asciidoctor-diagram`
 let g:padoc_build_command = 'asciidoctor -r asciidoctor-diagram'
+
+" [experimental] auto scroll settings
+let g:padoc_experimental_auto_scroll=1
 ```
 
 ## Contribution
