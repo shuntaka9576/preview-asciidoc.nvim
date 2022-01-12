@@ -2,11 +2,13 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  $(function () {
-    var socket = io();
-    socket.on('refresh_content', function(msg){
-      $('#adoc').html(msg)
-    });
+  var socket = io();
+  socket.on('refresh_content', function(msg){
+    $('#adoc').html(msg)
+  });
+  socket.on('refresh_view', function(pos){
+      var line = document.body.clientHeight * pos
+      window.scrollTo(0,line);
   });
 </script>
 <html>
