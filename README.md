@@ -1,3 +1,6 @@
+
+⚠️This repository is no longer maintenance. Please use [preview-asciidoc.vim](https://github.com/shuntaka9576/preview-asciidoc.vim) instead.⚠️
+
 # preview-asciidoc.nvim
 It is possible to preview with [Asciidoctor](https://asciidoctor.org/docs/user-manual/) in real time! 
 
